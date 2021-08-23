@@ -7,10 +7,14 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalInput;
     public float speed;
     public float jumpForce;
+    private float jumpTimeCounter;
+    public float jumpTime;
 
     private bool facingRight;
+    private bool isJumping;
     [SerializeField] bool isOnGround=false;
     [SerializeField] bool jumpUsed;
+    
 
     private Rigidbody2D playerRb;
 
@@ -66,9 +70,30 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W) && isOnGround)
         {
+            isJumping = true;
+            jumpTimeCounter = jumpTime;
             playerRb.velocity = Vector2.up * jumpForce;
             isOnGround = false;
         }
+
+        if (Input.GetKey(KeyCode.W) && isJumping == true)
+        {
+            if (jumpTimeCounter > 0)
+            {
+                playerRb.velocity = Vector2.up * jumpForce;
+                jumpTimeCounter -= Time.deltaTime;  
+            }
+            else
+            {
+                isJumping = false;
+                isOnGround = false;
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            isJumping = false;
+        }
+        
     }
    
     
