@@ -5,15 +5,21 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private float horizontalInput;
+    private float jumpTimeCounter;
+
     public float speed;
     public float jumpForce;
-    private float jumpTimeCounter;
     public float jumpTime;
 
     private bool facingRight;
     private bool isJumping;
+
     [SerializeField] bool isOnGround=false;
     [SerializeField] bool jumpUsed;
+
+    public GameObject hookPrefab;
+
+    public Transform hookPrefabPosition;
     
 
     private Rigidbody2D playerRb;
@@ -26,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         JumpCode();
+        StartTeleport();
     }
     private void FixedUpdate()
     {
@@ -50,6 +57,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Flipper()  
     {
+        void Flip()
+        {
+            facingRight = !facingRight;
+            Vector2 Scaler = transform.localScale;
+            Scaler.x *= -1;
+            transform.localScale = Scaler;
+        }
+
         if (facingRight == false && horizontalInput > 0)
         {
             Flip();
@@ -58,14 +73,9 @@ public class PlayerMovement : MonoBehaviour
         {
             Flip();
         }
+
     }
-    void Flip()
-    {
-        facingRight = !facingRight;
-        Vector2 Scaler = transform.localScale;
-        Scaler.x *= -1;
-        transform.localScale = Scaler;
-    }
+   
     void JumpCode()
     {
         if (Input.GetKeyDown(KeyCode.W) && isOnGround)
@@ -95,6 +105,12 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
-   
+   void StartTeleport()
+    {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Instantiate(hookPrefab, hookPrefabPosition.position, hookPrefab.transform.rotation);
+        }
+    }
     
 }
