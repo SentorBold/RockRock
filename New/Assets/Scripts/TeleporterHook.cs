@@ -12,7 +12,7 @@ public class TeleporterHook : MonoBehaviour
 
     private void Awake()
     {
-    
+        
     }
     public void FixedUpdate()
     {
@@ -32,8 +32,11 @@ public class TeleporterHook : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {   
             Vector3 medium =(player.transform.position - other.transform.position);
+            Debug.Log(medium);  
             Vector3 tam = (other.transform.position - medium);
+            Debug.Log(tam);
             player.transform.position = tam;
+            Debug.Log(tam);
         }
     }
     void DeleteGameObject()
