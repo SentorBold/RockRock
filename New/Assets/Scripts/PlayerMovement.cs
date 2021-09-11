@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private float horizontalInput;
+    private float verticallInput;
     private float jumpTimeCounter;
 
     public float speed;
@@ -13,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
 
     private bool facingRight;
     private bool isJumping;
+    
+    Vector2 movement;
+    public Animator animator;
 
     [SerializeField] bool isOnGround=false;
     [SerializeField] bool jumpUsed;
@@ -31,12 +35,31 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        
+        //
         JumpCode();
         StartTeleport();
+        Debug.Log(verticallInput);
+        Debug.Log(horizontalInput);
+        //animasyonlar
+        animator.SetFloat("Horizontal", horizontalInput);
+        animator.SetFloat("Vertical", verticallInput);
+        animator.SetFloat("Speed", movement.sqrMagnitude);
+
+        if (Input.GetAxisRaw("Horizontal") == 1 || Input.GetAxisRaw("Horizontal") == -1 || Input.GetAxisRaw("Vertical") == 1)
+        {
+            animator.SetFloat("LastHorizontal", Input.GetAxisRaw("Horizontal"));
+            animator.SetFloat("LastVertical", Input.GetAxisRaw("Vertical"));
+        }
+        
+
+
+
     }
     private void FixedUpdate()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticallInput = Input.GetAxisRaw("Vertical");
         CharacterMovement();
         Flipper();  
     }
@@ -52,6 +75,7 @@ public class PlayerMovement : MonoBehaviour
     void CharacterMovement()
     {
         playerRb.velocity = new Vector2(horizontalInput * speed, playerRb.velocity.y);
+        movement = playerRb.velocity / 10;
         
     }
 

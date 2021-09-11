@@ -16,8 +16,9 @@ public class TeleporterHook : MonoBehaviour
     }
     public void FixedUpdate()
     {
+        
         transform.Translate(Vector2.right * Time.deltaTime * speed);
-
+            
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -30,7 +31,8 @@ public class TeleporterHook : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Enemy"))
-        {   
+        {
+            Debug.Log("oyunbozuk");
             Vector3 medium =(player.transform.position - other.transform.position);
             Debug.Log(medium);  
             Vector3 tam = (other.transform.position - medium);
