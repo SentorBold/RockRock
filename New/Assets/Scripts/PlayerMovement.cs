@@ -24,18 +24,19 @@ public class PlayerMovement : MonoBehaviour
     public GameObject hookPrefab;
 
     public Transform hookPrefabPosition;
-    
+    private Transform player;
 
     private Rigidbody2D playerRb;
+    
 
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody2D>();
+        
     }
 
     private void Update()
     {
-        
         //
         JumpCode();
         StartTeleport();
@@ -51,7 +52,17 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("LastHorizontal", Input.GetAxisRaw("Horizontal"));
             animator.SetFloat("LastVertical", Input.GetAxisRaw("Vertical"));
         }
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = Camera.main.transform.position.z + Camera.main.nearClipPlane;
+            transform.position = mousePosition;
+        }
+         
+
+
+
+
 
 
 
